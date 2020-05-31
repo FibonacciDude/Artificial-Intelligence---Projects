@@ -15,22 +15,22 @@ def epsilon_greedy(env, Q, state, ith_episode, decay_rate, episodes_before_decay
     elif ith_episode < episodes_before_decay:
       epsilon = 1.0
     else:
-      epsilon = (decay_rate**(ith_episode-episodes_before_decay)) #change way you choose epsilon
+      epsilon = (decay_rate**(ith_episode-episodes_before_decay)) #epsilon with decay rate
     randNum = np.random.random()
     if randNum < epsilon:
-        policy = math.floor(random.uniform(1,6))
+        policy = math.floor(random.uniform(1,6)) #choose random number from 1 to 5
     else:
-        policy = np.argmax(Q[state]) #dude is it argmax or max... if it doesnt work then change it
-    return int(policy) #return the action based on policy
+        policy = np.argmax(Q[state]) #Take the greedy action based on state
+    return int(policy) #return the action based on the policy pi
 
 def upd_q(Q, Q_next, reward, alpha, gamma):
     #update Q based on given inputs
     return Q + (alpha*(reward + (gamma*Q_next) - Q))
 
 def q_learning(env, num_episodes, alpha, gamma, decay_rate, episodes_before_decay, epsilon=None):
-    #q table
+    #Q table
     Q = np.zeros((500, 6))
-
+    #Counting the best averages
     best_avg_reward = -math.inf
     avg_rewards = deque(maxlen=num_episodes)
     samp_rewards = deque(maxlen= 100)
@@ -80,4 +80,6 @@ def q_learning(env, num_episodes, alpha, gamma, decay_rate, episodes_before_deca
     return Q
 
 env = gym.make('Taxi-v3')
+#configuration that worked best for me. May not be the global maximum but its a local :)
+#Its around 8.7 avg reward
 Q = q_learning(env, 15000, alpha = 1, gamma = 1, decay_rate = 0.94, episodes_before_decay = 6) 
