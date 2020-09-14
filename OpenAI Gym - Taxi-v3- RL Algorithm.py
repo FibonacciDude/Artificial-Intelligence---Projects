@@ -81,5 +81,5 @@ def q_learning(env, num_episodes, alpha, gamma, decay_rate, episodes_before_deca
 
 env = gym.make('Taxi-v3')
 #configuration that worked best for me. May not be the global maximum but its a local :)
-#Its around 8.7 avg reward
+#Its around 8.7 avg reward but varies significantly.
 Q = q_learning(env, 15000, alpha = 1, gamma = 1, decay_rate = 0.94, episodes_before_decay = 6) 
